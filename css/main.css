@@ -195,9 +195,17 @@ img {
     left: 0;
     right: 0;
     background: rgba(10,10,10,0.98);
-    padding: 32px 48px;
-    gap: 20px;
+    padding: 24px 20px;
+    gap: 16px;
     border-bottom: 1px solid var(--border);
+  }
+  .nav-links.open a {
+    font-size: 0.85rem;
+    padding: 8px 0;
+  }
+  .nav-links.open .nav-cta {
+    text-align: center;
+    margin-top: 8px;
   }
 }
 
@@ -1404,9 +1412,166 @@ img {
 @media (max-width: 600px) {
   .hero {
     padding-bottom: 60px;
+    min-height: auto;
+    padding-top: 100px;
   }
   .hero-white-panel {
-    height: 40%;
+    height: 35%;
     border-radius: 50% 50% 0 0;
+  }
+  .hero-content {
+    padding-right: 0;
+  }
+  .hero-title {
+    font-size: 2rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .hero-desc {
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+  .hero-advantages {
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-direction: column;
+  }
+  .hero-adv-item {
+    font-size: 0.75rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+    font-size: 0.72rem;
+  }
+  .hero-scroll-indicator {
+    display: none;
+  }
+
+  /* Stats */
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 40px 0;
+  }
+  .stat-item {
+    padding: 28px 16px;
+  }
+  .stat-num {
+    font-size: 2rem;
+  }
+  .stat-label {
+    font-size: 0.68rem;
+  }
+
+  /* Process */
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+  .process-step {
+    padding: 28px 20px;
+  }
+
+  /* Catalog */
+  .catalog-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .catalog-filters {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 8px;
+  }
+  .filter-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 8px 14px;
+    font-size: 0.65rem;
+  }
+  .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Form */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .form-input,
+  .form-textarea,
+  .form-select {
+    font-size: 16px; /* prevents zoom on iOS */
+    padding: 12px 14px;
+  }
+  .btn[type="submit"] {
+    padding: 14px 24px;
+  }
+
+  /* Footer */
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  /* Sections */
+  .section {
+    padding: 64px 0;
+  }
+  .section-title {
+    font-size: 1.6rem;
+  }
+  .section-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  /* Services */
+  .service-item {
+    padding: 40px 0;
+  }
+  .service-name {
+    font-size: 1.3rem;
+  }
+  .service-desc {
+    font-size: 0.85rem;
+  }
+
+  /* Features */
+  .features-grid {
+    margin-top: 40px;
+  }
+  .feature-card {
+    padding: 32px 20px;
+  }
+  .feature-num {
+    font-size: 2rem;
+  }
+
+  /* Delivery */
+  .delivery-grid {
+    grid-template-columns: 1fr;
+    margin-top: 32px;
+  }
+  .delivery-card {
+    padding: 28px 20px;
+  }
+
+  /* Tech */
+  .tech-grid {
+    margin-top: 32px;
+  }
+  .tech-card {
+    padding: 28px 20px;
   }
 }
