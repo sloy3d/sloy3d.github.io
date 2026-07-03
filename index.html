@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>СЛОЙ — Профессиональная 3D-печать по всей России</title>
+  <meta name="description" content="Профессиональная 3D-печать на заказ. FDM и resin печать. Доставка по всей России через СДЭК и Озон. Кастомные изделия и готовые модели.">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23c8a97e'>C</text></svg>">
+</head>
+<body class="page-transition">
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="/" class="nav-logo">СЛОЙ<span>.</span></a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#tech">Технологии</a></li>
+        <li><a href="#catalog">Каталог</a></li>
+        <li><a href="#delivery">Доставка</a></li>
+        <li><a href="#contact" class="nav-cta">Оставить заявку</a></li>
+      </ul>
+      <button class="nav-burger" id="burger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-white-panel">
+      <div class="hero-visual">
+        <svg viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Printer frame -->
+          <g opacity="0.18">
+            <rect x="80" y="40" width="340" height="380" rx="8" stroke="#0a0a0a" stroke-width="2.5" fill="none"/>
+            <rect x="80" y="40" width="340" height="20" rx="4" fill="#0a0a0a" opacity="0.3"/>
+            <!-- Top bar detail -->
+            <line x1="90" y1="50" x2="410" y2="50" stroke="#0a0a0a" stroke-width="0.5" opacity="0.5"/>
+            <!-- Vertical rails -->
+            <rect x="100" y="60" width="4" height="340" fill="#0a0a0a" opacity="0.15"/>
+            <rect x="396" y="60" width="4" height="340" fill="#0a0a0a" opacity="0.15"/>
+            <!-- Bottom feet -->
+            <rect x="90" y="410" width="30" height="15" rx="3" fill="#0a0a0a" opacity="0.2"/>
+            <rect x="380" y="410" width="30" height="15" rx="3" fill="#0a0a0a" opacity="0.2"/>
+          </g>
+
+          <!-- Bed (heated plate) -->
+          <g opacity="0.14">
+            <rect x="110" y="330" width="280" height="12" rx="3" fill="#0a0a0a"/>
+            <rect x="120" y="318" width="260" height="4" rx="2" fill="#0a0a0a" opacity="0.4"/>
+            <!-- Bed springs -->
+            <line x1="130" y1="342" x2="130" y2="355" stroke="#0a0a0a" stroke-width="1.5" opacity="0.3"/>
+            <line x1="370" y1="342" x2="370" y2="355" stroke="#0a0a0a" stroke-width="1.5" opacity="0.3"/>
+            <line x1="130" y1="355" x2="130" y2="358" stroke="#0a0a0a" stroke-width="3" opacity="0.2"/>
+            <line x1="370" y1="355" x2="370" y2="358" stroke="#0a0a0a" stroke-width="3" opacity="0.2"/>
+          </g>
+
+          <!-- X-axis gantry (horizontal bar moving up/down) -->
+          <g class="printer-gantry" opacity="0.2">
+            <rect x="100" y="80" width="300" height="10" rx="3" fill="#0a0a0a"/>
+            <rect x="100" y="84" width="300" height="2" fill="#0a0a0a" opacity="0.3"/>
+            <!-- Belt detail -->
+            <line x1="105" y1="88" x2="400" y2="88" stroke="#0a0a0a" stroke-width="0.8" stroke-dasharray="4 2" opacity="0.4"/>
+          </g>
+
+          <!-- Print head assembly -->
+          <g class="printer-head" opacity="0.25">
+            <!-- Carriage block -->
+            <rect x="200" y="70" width="50" height="30" rx="4" fill="#0a0a0a"/>
+            <!-- Left fan -->
+            <rect x="195" y="72" width="14" height="14" rx="7" stroke="#0a0a0a" stroke-width="1" fill="none"/>
+            <line x1="202" y1="74" x2="202" y2="84" stroke="#0a0a0a" stroke-width="0.5" opacity="0.5"/>
+            <line x1="197" y1="79" x2="207" y2="79" stroke="#0a0a0a" stroke-width="0.5" opacity="0.5"/>
+            <!-- Right fan -->
+            <rect x="241" y="72" width="14" height="14" rx="7" stroke="#0a0a0a" stroke-width="1" fill="none"/>
+            <line x1="248" y1="74" x2="248" y2="84" stroke="#0a0a0a" stroke-width="0.5" opacity="0.5"/>
+            <line x1="243" y1="79" x2="253" y2="79" stroke="#0a0a0a" stroke-width="0.5" opacity="0.5"/>
+            <!-- Heater block -->
+            <rect x="215" y="100" width="20" height="14" rx="2" fill="#0a0a0a"/>
+            <!-- Heat break -->
+            <rect x="222" y="95" width="6" height="8" rx="1" fill="#0a0a0a" opacity="0.6"/>
+            <!-- Nozzle -->
+            <path d="M220 114 L230 114 L226 124 L224 124 Z" fill="#0a0a0a"/>
+            <!-- Filament tube -->
+            <line x1="225" y1="60" x2="225" y2="72" stroke="#0a0a0a" stroke-width="2" opacity="0.3"/>
+          </g>
+
+          <!-- Filament spool -->
+          <g transform="translate(380, 30)" opacity="0.1">
+            <circle cx="0" cy="0" r="28" stroke="#0a0a0a" stroke-width="2" fill="none"/>
+            <circle cx="0" cy="0" r="20" stroke="#0a0a0a" stroke-width="1" fill="none"/>
+            <circle cx="0" cy="0" r="12" stroke="#0a0a0a" stroke-width="0.8" fill="none"/>
+            <circle cx="0" cy="0" r="5" fill="#0a0a0a"/>
+            <line x1="28" y1="0" x2="225" y2="60" stroke="#0a0a0a" stroke-width="0.8" stroke-dasharray="3 2" opacity="0.5"/>
+          </g>
+
+          <!-- Printed object (layers) -->
+          <g class="printer-object" opacity="0.12">
+            <rect x="200" y="310" width="60" height="4" rx="1" fill="#0a0a0a" class="obj-layer-8"/>
+            <rect x="205" y="303" width="50" height="4" rx="1" fill="#0a0a0a" class="obj-layer-7"/>
+            <rect x="210" y="296" width="40" height="4" rx="1" fill="#0a0a0a" class="obj-layer-6"/>
+            <rect x="215" y="289" width="30" height="4" rx="1" fill="#0a0a0a" class="obj-layer-5"/>
+            <rect x="218" y="282" width="24" height="4" rx="1" fill="#0a0a0a" class="obj-layer-4"/>
+            <rect x="220" y="275" width="20" height="4" rx="1" fill="#0a0a0a" class="obj-layer-3"/>
+            <rect x="222" y="268" width="16" height="4" rx="1" fill="#0a0a0a" class="obj-layer-2"/>
+            <rect x="224" y="261" width="12" height="4" rx="1" fill="#0a0a0a" class="obj-layer-1"/>
+          </g>
+
+          <!-- LCD screen on frame -->
+          <g opacity="0.1">
+            <rect x="340" y="65" width="55" height="35" rx="4" stroke="#0a0a0a" stroke-width="1.5" fill="none"/>
+            <rect x="345" y="70" width="45" height="25" rx="2" fill="#0a0a0a" opacity="0.15" class="lcd-screen"/>
+            <circle cx="352" cy="82" r="2" fill="#0a0a0a" opacity="0.4"/>
+            <circle cx="360" cy="82" r="2" fill="#0a0a0a" opacity="0.4"/>
+          </g>
+
+          <!-- SD card slot -->
+          <g opacity="0.08">
+            <rect x="398" y="120" width="12" height="18" rx="2" stroke="#0a0a0a" stroke-width="1" fill="none"/>
+            <rect x="400" y="124" width="8" height="2" fill="#0a0a0a" opacity="0.5"/>
+          </g>
+
+          <!-- Stepper motors -->
+          <g opacity="0.08">
+            <rect x="90" y="75" width="16" height="16" rx="2" fill="#0a0a0a"/>
+            <circle cx="98" cy="83" r="4" stroke="#0a0a0a" stroke-width="0.8" fill="none"/>
+            <rect x="90" y="350" width="16" height="16" rx="2" fill="#0a0a0a"/>
+            <circle cx="98" cy="358" r="4" stroke="#0a0a0a" stroke-width="0.8" fill="none"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="container hero-content">
+      <h1 class="hero-title">Печатаем <em>точность</em><br>в&nbsp;каждом <span class="white-accent">слое</span></h1>
+      <p class="hero-desc">Мы&nbsp;производим изделия любой сложности на&nbsp;промышленных 3D-принтерах. От&nbsp;единичных прототипов до&nbsp;серийного производства&nbsp;&mdash; с&nbsp;контролем качества на&nbsp;каждом этапе.</p>
+      <div class="hero-advantages">
+        <div class="hero-adv-item"><div class="hero-adv-dot"></div>FDM печать</div>
+        <div class="hero-adv-item"><div class="hero-adv-dot"></div>Срок от 24 часов</div>
+        <div class="hero-adv-item"><div class="hero-adv-dot"></div>Доставка СДЭК / Озон</div>
+        <div class="hero-adv-item"><div class="hero-adv-dot"></div>Гарантия качества</div>
+      </div>
+      <div class="hero-actions">
+        <a href="#catalog" class="btn btn-primary">Смотреть каталог</a>
+        <a href="#contact" class="btn btn-outline">Заказать печать</a>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span>Листайте</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-label fade-in">О компании</div>
+      <h2 class="section-title fade-in">Производство, которому доверяют</h2>
+      <p class="section-desc fade-in">СЛОЙ&nbsp;&mdash; это команда инженеров и&nbsp;дизайнеров, которая занимается профессиональной 3D-печатью. Мы&nbsp;работаем как с&nbsp;частными клиентами, так и&nbsp;с&nbsp;бизнесом, производя качественные изделия по&nbsp;доступным ценам.</p>
+
+      <div class="features-grid fade-in">
+        <div class="feature-card">
+          <div class="feature-num">01</div>
+          <div class="feature-title">Промышленное оборудование</div>
+          <p class="feature-text">Используем профессиональные FDM-принтеры с&nbsp;рабочей зоной до&nbsp;400x400x500&nbsp;мм. Точность печати до&nbsp;0.05&nbsp;мм. Работаем с&nbsp;широким спектром термопластиков: PLA, ABS, PETG, TPU, нейлон.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-num">02</div>
+          <div class="feature-title">Проектирование в Blender и FreeCAD</div>
+          <p class="feature-text">Наша команда владеет профессиональным софтом для 3D-моделирования. Blender&nbsp;&mdash; для художественных и&nbsp;органических форм, FreeCAD&nbsp;&mdash; для инженерных расчётов и&nbsp;технических деталей.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-num">03</div>
+          <div class="feature-title">Искусственный интеллект</div>
+          <p class="feature-text">Внедряем ИИ-алгоритмы для оптимизации печатных профилей, автоматического контроля качества и&nbsp;предиктивного анализа. Это позволяет сократить брак и&nbsp;ускорить производство.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section" id="services" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-label fade-in">Услуги</div>
+      <h2 class="section-title fade-in">Полный цикл производства</h2>
+      <p class="section-desc fade-in">От&nbsp;идеи и&nbsp;чертежа до&nbsp;готового изделия в&nbsp;ваших руках. Мы&nbsp;берём на&nbsp;себя все этапы: моделирование, печать, постобработку и&nbsp;доставку.</p>
+
+      <div class="services-list">
+        <div class="service-item fade-in">
+          <div>
+            <div class="service-num">01</div>
+            <h3 class="service-name">Печать из каталога</h3>
+            <p class="service-desc">Выберите любую модель из&nbsp;нашего каталога&nbsp;&mdash; мы&nbsp;напечатаем её&nbsp;в&nbsp;нужном вам размере, цвете и&nbsp;материале. Все модели в&nbsp;каталоге проверены на&nbsp;printability и&nbsp;оптимизированы для качественной печати. Вы&nbsp;можете выбрать PLA, ABS, PETG или другой материал в&nbsp;зависимости от&nbsp;назначения изделия.</p>
+          </div>
+          <div class="service-visual">
+            <svg viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="600" height="450" fill="#161616"/>
+              <rect x="220" y="100" width="160" height="200" rx="6" stroke="#c8a97e" stroke-width="1.5" fill="none" opacity="0.3"/>
+              <rect x="235" y="115" width="130" height="10" rx="2" fill="#c8a97e" opacity="0.15"/>
+              <rect x="235" y="135" width="130" height="10" rx="2" fill="#c8a97e" opacity="0.15"/>
+              <rect x="235" y="155" width="130" height="10" rx="2" fill="#c8a97e" opacity="0.15"/>
+              <rect x="255" y="200" width="90" height="60" rx="4" stroke="#c8a97e" stroke-width="1" fill="none" opacity="0.25"/>
+              <rect x="270" y="215" width="60" height="30" rx="2" fill="#c8a97e" opacity="0.1"/>
+              <path d="M280 320 L300 310 L320 320" stroke="#c8a97e" stroke-width="1.5" fill="none" opacity="0.3"/>
+              <rect x="220" y="320" width="160" height="2" fill="#c8a97e" opacity="0.15"/>
+              <text x="300" y="380" text-anchor="middle" fill="#c8a97e" opacity="0.25" font-family="Montserrat,sans-serif" font-size="13" font-weight="600" letter-spacing="0.15em">КАТАЛОГ</text>
+            </svg>
+          </div>
+        </div>
+        <div class="service-item fade-in">
+          <div>
+            <div class="service-num">02</div>
+            <h3 class="service-name">Кастомные изделия на заказ</h3>
+            <p class="service-desc">Есть идея, но&nbsp;нет готовой модели? Мы&nbsp;спроектируем и&nbsp;напечатаем уникальное изделие по&nbsp;вашим параметрам. Принимаем чертежи, скетчи, ссылки на&nbsp;примеры. Работаем в&nbsp;Blender для художественных проектов и&nbsp;FreeCAD для инженерных задач с&nbsp;точными допусками.</p>
+          </div>
+          <div class="service-visual">
+            <svg viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="600" height="450" fill="#161616"/>
+              <circle cx="300" cy="180" r="70" stroke="#c8a97e" stroke-width="1.5" fill="none" opacity="0.25"/>
+              <path d="M270 180 L300 140 L330 180 L310 180 L310 210 L290 210 L290 180 Z" fill="#c8a97e" opacity="0.12"/>
+              <line x1="300" y1="210" x2="300" y2="280" stroke="#c8a97e" stroke-width="1" opacity="0.2"/>
+              <circle cx="300" cy="290" r="6" fill="#c8a97e" opacity="0.2"/>
+              <line x1="250" y1="310" x2="350" y2="310" stroke="#c8a97e" stroke-width="1" opacity="0.15"/>
+              <line x1="260" y1="325" x2="340" y2="325" stroke="#c8a97e" stroke-width="1" opacity="0.1"/>
+              <text x="300" y="380" text-anchor="middle" fill="#c8a97e" opacity="0.25" font-family="Montserrat,sans-serif" font-size="13" font-weight="600" letter-spacing="0.15em">НА ЗАКАЗ</text>
+            </svg>
+          </div>
+        </div>
+        <div class="service-item fade-in">
+          <div>
+            <div class="service-num">03</div>
+            <h3 class="service-name">3D-моделирование</h3>
+            <p class="service-desc">Услуги профессионального 3D-моделирования для тех, кому нужна только цифровая модель. Создание прототипов, архитектурных макетов, технических деталей, фигурок и&nbsp;художественных объектов. Форматы: STL, OBJ, STEP, IGES.</p>
+          </div>
+          <div class="service-visual">
+            <svg viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="600" height="450" fill="#161616"/>
+              <polygon points="300,110 380,170 380,280 300,340 220,280 220,170" stroke="#c8a97e" stroke-width="1.5" fill="none" opacity="0.25"/>
+              <line x1="220" y1="170" x2="380" y2="280" stroke="#c8a97e" stroke-width="0.8" opacity="0.12"/>
+              <line x1="380" y1="170" x2="220" y2="280" stroke="#c8a97e" stroke-width="0.8" opacity="0.12"/>
+              <line x1="300" y1="110" x2="300" y2="340" stroke="#c8a97e" stroke-width="0.8" opacity="0.12"/>
+              <circle cx="300" cy="110" r="4" fill="#c8a97e" opacity="0.3"/>
+              <circle cx="380" cy="170" r="3" fill="#c8a97e" opacity="0.2"/>
+              <circle cx="220" cy="170" r="3" fill="#c8a97e" opacity="0.2"/>
+              <circle cx="300" cy="340" r="4" fill="#c8a97e" opacity="0.3"/>
+              <text x="300" y="395" text-anchor="middle" fill="#c8a97e" opacity="0.25" font-family="Montserrat,sans-serif" font-size="13" font-weight="600" letter-spacing="0.15em">МОДЕЛИРОВАНИЕ</text>
+            </svg>
+          </div>
+        </div>
+        <div class="service-item fade-in">
+          <div>
+            <div class="service-num">04</div>
+            <h3 class="service-name">Серийное производство</h3>
+            <p class="service-desc">Нужна партия от&nbsp;10&nbsp;до&nbsp;1000&nbsp;штук? Мы&nbsp;организуем серийное производство с&nbsp;единым стандартом качества. Гибкие скидки на&nbsp;объём, фиксированные сроки, контроль каждой единицы продукции.</p>
+          </div>
+          <div class="service-visual">
+            <svg viewBox="0 0 600 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="600" height="450" fill="#161616"/>
+              <rect x="160" y="140" width="80" height="100" rx="4" stroke="#c8a97e" stroke-width="1" fill="none" opacity="0.2"/>
+              <rect x="260" y="140" width="80" height="100" rx="4" stroke="#c8a97e" stroke-width="1" fill="none" opacity="0.2"/>
+              <rect x="360" y="140" width="80" height="100" rx="4" stroke="#c8a97e" stroke-width="1" fill="none" opacity="0.2"/>
+              <rect x="170" y="155" width="60" height="8" rx="2" fill="#c8a97e" opacity="0.1"/>
+              <rect x="270" y="155" width="60" height="8" rx="2" fill="#c8a97e" opacity="0.1"/>
+              <rect x="370" y="155" width="60" height="8" rx="2" fill="#c8a97e" opacity="0.1"/>
+              <rect x="170" y="175" width="60" height="40" rx="2" fill="#c8a97e" opacity="0.06"/>
+              <rect x="270" y="175" width="60" height="40" rx="2" fill="#c8a97e" opacity="0.06"/>
+              <rect x="370" y="175" width="60" height="40" rx="2" fill="#c8a97e" opacity="0.06"/>
+              <line x1="240" y1="190" x2="260" y2="190" stroke="#c8a97e" stroke-width="0.8" opacity="0.15" stroke-dasharray="3 2"/>
+              <line x1="340" y1="190" x2="360" y2="190" stroke="#c8a97e" stroke-width="0.8" opacity="0.15" stroke-dasharray="3 2"/>
+              <text x="300" y="310" text-anchor="middle" fill="#c8a97e" opacity="0.25" font-family="Montserrat,sans-serif" font-size="13" font-weight="600" letter-spacing="0.15em">СЕРИЯ</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section" style="padding: 0;">
+    <div class="container">
+      <div class="stats fade-in">
+        <div class="stat-item">
+          <div class="stat-num" data-count="2500">0</div>
+          <div class="stat-label">Изделий произведено</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-count="120">0</div>
+          <div class="stat-label">Довольных клиентов</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-count="24">0</div>
+          <div class="stat-label">Часов минимальный срок</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-count="150">0</div>
+          <div class="stat-label">Городов доставки</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech / Materials -->
+  <section class="section" id="tech">
+    <div class="container">
+      <div class="section-label fade-in">Технологии и материалы</div>
+      <h2 class="section-title fade-in">На чём мы печатаем</h2>
+      <p class="section-desc fade-in">Мы&nbsp;используем два основных типа 3D-печати, каждый из&nbsp;которых подходит для своих задач. Выбор технологии зависит от&nbsp;назначения изделия, требуемой точности и&nbsp;бюджета.</p>
+
+      <div class="tech-grid fade-in">
+        <div class="tech-card">
+          <div class="tech-card-title">FDM-печать (наплавление)</div>
+          <p class="tech-card-text">Технология послойного наплавления термопластика. Подходит для прототипирования, функциональных деталей, корпусов, кронштейнов и&nbsp;крупногабаритных изделий. Оптимальное соотношение цены и&nbsp;качества.</p>
+          <ul class="tech-card-list">
+            <li><span>PLA</span><span>от 5 ₽/г</span></li>
+            <li><span>ABS</span><span>от 7 ₽/г</span></li>
+            <li><span>PETG</span><span>от 8 ₽/г</span></li>
+            <li><span>TPU (гибкий)</span><span>от 12 ₽/г</span></li>
+            <li><span>Нейлон</span><span>от 15 ₽/г</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- How we work -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-label fade-in">Как мы работаем</div>
+      <h2 class="section-title fade-in">Четыре шага до готового изделия</h2>
+      <p class="section-desc fade-in">Простой и&nbsp;прозрачный процесс от&nbsp;заявки до&nbsp;получения. Вы&nbsp;всегда знаете, на&nbsp;каком этапе находится ваш заказ.</p>
+
+      <div class="process-grid fade-in">
+        <div class="process-step">
+          <div class="process-num">01</div>
+          <div class="process-title">Заявка</div>
+          <p class="process-text">Вы&nbsp;оставляете заявку через сайт или пишете нам в&nbsp;Telegram. Описываете задачу, прикладываете файлы или ссылки.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">02</div>
+          <div class="process-title">Расчёт</div>
+          <p class="process-text">Мы&nbsp;оцениваем стоимость и&nbsp;сроки, согласовываем материал и&nbsp;параметры печати. Предоплата&nbsp;&mdash; 50%.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">03</div>
+          <div class="process-title">Производство</div>
+          <p class="process-text">Печатаем, контролируем качество, при необходимости делаем постобработку: шлифовку, покраску, склейку.</p>
+        </div>
+        <div class="process-step">
+          <div class="process-num">04</div>
+          <div class="process-title">Доставка</div>
+          <p class="process-text">Упаковываем и&nbsp;отправляем через СДЭК или Озон. Номер отслеживания вы&nbsp;получаете сразу после отправки.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog -->
+  <section class="section" id="catalog">
+    <div class="container">
+      <div class="catalog-header">
+        <div>
+          <div class="section-label fade-in">Каталог</div>
+          <h2 class="section-title fade-in">Готовые модели</h2>
+          <p class="section-desc fade-in" style="margin-bottom: 0;">Выберите модель из&nbsp;каталога, и&nbsp;мы&nbsp;напечатаем её&nbsp;в&nbsp;нужном вам размере и&nbsp;цвете.</p>
+        </div>
+        <div class="catalog-filters fade-in">
+          <button class="filter-btn active" data-filter="all">Все</button>
+          <button class="filter-btn" data-filter="decor">Декор</button>
+          <button class="filter-btn" data-filter="tech">Техника</button>
+          <button class="filter-btn" data-filter="gifts">Подарки</button>
+          <button class="filter-btn" data-filter="custom">Кастом</button>
+        </div>
+      </div>
+      <div class="catalog-grid" id="catalogGrid"></div>
+    </div>
+  </section>
+
+  <!-- Delivery -->
+  <section class="section" id="delivery" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-label fade-in">Доставка</div>
+      <h2 class="section-title fade-in">По всей России</h2>
+      <p class="section-desc fade-in">Отправляем заказы в&nbsp;Москву, Санкт-Петербург, Новосибирск, Екатеринбург, Казань и&nbsp;ещё 150+ городов. Бережная упаковка гарантирует сохранность при транспортировке.</p>
+
+      <div class="delivery-grid fade-in">
+        <div class="delivery-card">
+          <div class="delivery-card-icon">СД</div>
+          <h3 class="delivery-card-title">СДЭК</h3>
+          <p class="delivery-card-text">Курьерская доставка до&nbsp;двери или до&nbsp;пункта выдачи в&nbsp;700+ городах России. Сроки от&nbsp;1&nbsp;до&nbsp;5&nbsp;рабочих дней в&nbsp;зависимости от&nbsp;региона. Полное отслеживание на&nbsp;каждом этапе.</p>
+        </div>
+        <div class="delivery-card">
+          <div class="delivery-card-icon">ОЗ</div>
+          <h3 class="delivery-card-title">Озон</h3>
+          <p class="delivery-card-text">Доставка через обширную сеть пунктов выдачи Озон. Удобное оформление, быстрые сроки. Бесплатная доставка при заказе от&nbsp;3000&nbsp;рублей.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div>
+          <div class="section-label fade-in">Контакты</div>
+          <h2 class="section-title fade-in">Обсудим ваш проект</h2>
+          <p class="section-desc fade-in" style="margin-bottom: 48px;">Оставьте заявку через форму, и&nbsp;мы&nbsp;свяжемся с&nbsp;вами для обсуждения деталей заказа.</p>
+
+          <div class="contact-info-item fade-in">
+            <div class="contact-info-label">Телефон</div>
+            <div class="contact-info-value">+7 (951) 508-29-27</div>
+          </div>
+          <div class="contact-info-item fade-in">
+            <div class="contact-info-label">Электронная почта</div>
+            <div class="contact-info-value">hatlanadzianmartiros351@gmail.com</div>
+          </div>
+        </div>
+
+        <div class="fade-in">
+          <form id="contactForm" onsubmit="return handleFormSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="name">Имя *</label>
+                <input class="form-input" type="text" id="name" name="name" required placeholder="Ваше имя">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="phone">Телефон *</label>
+                <input class="form-input" type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-__-__">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Электронная почта *</label>
+              <input class="form-input" type="email" id="email" name="email" required placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="service">Тип услуги *</label>
+              <select class="form-select" id="service" name="service" required>
+                <option value="" disabled selected>Выберите услугу</option>
+                <option value="catalog">Печать из каталога</option>
+                <option value="custom">Кастомное изделие на заказ</option>
+                <option value="modeling">3D-моделирование</option>
+                <option value="serial">Серийное производство</option>
+                <option value="other">Другое</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="delivery_method">Способ доставки</label>
+              <select class="form-select" id="delivery_method" name="delivery">
+                <option value="" disabled selected>Выберите способ доставки</option>
+                <option value="cdek">СДЭК (курьер / пункт выдачи)</option>
+                <option value="ozon">Озон (пункт выдачи)</option>
+                <option value="pickup">Самовывоз (Москва)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="message">Опишите ваш заказ *</label>
+              <textarea class="form-textarea" id="message" name="message" required placeholder="Расскажите, что вам нужно: размеры, материал, количество, цвет. Если есть файлы модели или ссылки на примеры — приложите их."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Отправить заявку</button>
+            <div class="form-success" id="formSuccess">Заявка принята. Мы свяжемся с вами в течение 2 часов.</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">СЛОЙ<span>.</span></div>
+          <p class="footer-desc">Профессиональная 3D-печать и&nbsp;моделирование. Производство изделий любой сложности на&nbsp;промышленном оборудовании. Доставка по&nbsp;всей России.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Навигация</div>
+          <ul class="footer-links">
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#tech">Технологии</a></li>
+            <li><a href="#catalog">Каталог</a></li>
+            <li><a href="#delivery">Доставка</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Услуги</div>
+          <ul class="footer-links">
+            <li><a href="#catalog">Печать из каталога</a></li>
+            <li><a href="#contact">Кастомные изделия</a></li>
+            <li><a href="#contact">3D-моделирование</a></li>
+            <li><a href="#contact">Серийное производство</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Контакты</div>
+          <ul class="footer-links">
+            <li><a href="tel:+79515082927">+7 (951) 508-29-27</a></li>
+            <li><a href="mailto:hatlanadzianmartiros351@gmail.com">hatlanadzianmartiros351@gmail.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 СЛОЙ. Все права защищены.</span>
+        <span>Профессиональная 3D-печать / Москва</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
