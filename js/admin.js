@@ -1,3 +1,8 @@
+// Supabase
+const SUPABASE_URL = 'https://pgrhrlcnhyyclxeczfer.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_nTJlQvQkDRkj02rUQ1fyRA_b6rg82Gu';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // Admin credentials
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'sloy2026';
@@ -62,16 +67,16 @@ document.querySelectorAll('.admin-tab').forEach(tab => {
 });
 
 // Load dashboard
-function loadDashboard() {
-  const products = JSON.parse(localStorage.getItem('sloy_products') || '[]');
-  const orders = JSON.parse(localStorage.getItem('sloy_submissions') || '[]');
+async function loadDashboard() {
+  const { data: products } = await db.from('products').select('*').order('id');
+  const { data: orders } = await db.from('orders').select('*').order('created_at', { ascending: false });
 
-  document.getElementById('statProducts').textContent = products.length;
-  document.getElementById('statOrders').textContent = orders.length;
-  document.getElementById('statNewOrders').textContent = orders.filter(o => o.status === 'new').length;
+  document.getElementById('statProducts').textContent = products ? products.length : 0;
+  document.getElementById('statOrders').textContent = orders ? orders.length : 0;
+  document.getElementById('statNewOrders').textContent = orders ? orders.filter(o => o.status === 'new').length : 0;
 
-  renderProductsTable(products);
-  renderOrdersTable(orders);
+  renderProductsTable(products || []);
+  renderOrdersTable(orders || []);
 }
 
 // Products table
@@ -96,12 +101,13 @@ function renderProductsTable(products) {
 // Orders table
 function renderOrdersTable(orders) {
   const tbody = document.getElementById('ordersBody');
-  tbody.innerHTML = orders.map((o, i) => {
-    const date = new Date(o.date).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  tbody.innerHTML = orders.map(o => {
+    const date = new Date(o.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
     const serviceLabels = {
       catalog: 'Из каталога',
       custom: 'Кастомное изделие',
       modeling: '3D-моделирование',
+      serial: 'Серийное производство',
       other: 'Другое'
     };
     return `
@@ -135,9 +141,8 @@ function openAddProduct() {
 }
 
 // Edit product
-function editProduct(id) {
-  const products = JSON.parse(localStorage.getItem('sloy_products') || '[]');
-  const product = products.find(p => p.id === id);
+async function editProduct(id) {
+  const { data: product } = await db.from('products').select('*').eq('id', id).single();
   if (!product) return;
 
   document.getElementById('editProductId').value = id;
@@ -147,9 +152,9 @@ function editProduct(id) {
   document.getElementById('prodPrice').value = product.price;
   document.getElementById('prodDesc').value = product.description;
   document.getElementById('prodImage').value = product.image || '';
-  document.getElementById('prodMaterial').value = product.specs?.Материал || '';
-  document.getElementById('prodSize').value = product.specs?.Размер || '';
-  document.getElementById('prodTime').value = product.specs?.['Время печати'] || '';
+  document.getElementById('prodMaterial').value = product.material || '';
+  document.getElementById('prodSize').value = product.size || '';
+  document.getElementById('prodTime').value = product.print_time || '';
 
   if (product.image) {
     showImagePreview(product.image);
@@ -162,45 +167,44 @@ function editProduct(id) {
 }
 
 // Save product
-function handleProductSave(e) {
+async function handleProductSave(e) {
   e.preventDefault();
-  const products = JSON.parse(localStorage.getItem('sloy_products') || '[]');
   const editId = document.getElementById('editProductId').value;
 
   const productData = {
-    id: editId ? parseInt(editId) : Date.now(),
     title: document.getElementById('prodTitle').value,
     category: document.getElementById('prodCategory').value,
-    categoryLabel: categoryLabels[document.getElementById('prodCategory').value],
+    category_label: categoryLabels[document.getElementById('prodCategory').value],
     description: document.getElementById('prodDesc').value,
     price: document.getElementById('prodPrice').value,
     image: document.getElementById('prodImage').value,
-    specs: {
-      'Материал': document.getElementById('prodMaterial').value,
-      'Размер': document.getElementById('prodSize').value,
-      'Время печати': document.getElementById('prodTime').value
-    }
+    material: document.getElementById('prodMaterial').value,
+    size: document.getElementById('prodSize').value,
+    print_time: document.getElementById('prodTime').value
   };
 
+  let result;
   if (editId) {
-    const index = products.findIndex(p => p.id === parseInt(editId));
-    if (index !== -1) products[index] = productData;
+    result = await db.from('products').update(productData).eq('id', parseInt(editId));
   } else {
-    products.push(productData);
+    productData.id = Date.now();
+    result = await db.from('products').insert(productData);
   }
 
-  localStorage.setItem('sloy_products', JSON.stringify(products));
+  if (result.error) {
+    alert('Ошибка сохранения: ' + result.error.message);
+    return false;
+  }
+
   closeProductForm();
   loadDashboard();
   return false;
 }
 
 // Delete product
-function deleteProduct(id) {
+async function deleteProduct(id) {
   if (!confirm('Удалить этот товар?')) return;
-  let products = JSON.parse(localStorage.getItem('sloy_products') || '[]');
-  products = products.filter(p => p.id !== id);
-  localStorage.setItem('sloy_products', JSON.stringify(products));
+  await db.from('products').delete().eq('id', id);
   loadDashboard();
 }
 
@@ -210,16 +214,16 @@ function closeProductForm() {
 }
 
 // View order
-function viewOrder(id) {
-  const orders = JSON.parse(localStorage.getItem('sloy_submissions') || '[]');
-  const order = orders.find(o => o.id === id);
+async function viewOrder(id) {
+  const { data: order } = await db.from('orders').select('*').eq('id', id).single();
   if (!order) return;
 
-  const date = new Date(order.date).toLocaleString('ru-RU');
+  const date = new Date(order.created_at).toLocaleString('ru-RU');
   const serviceLabels = {
     catalog: 'Из каталога',
     custom: 'Кастомное изделие',
     modeling: '3D-моделирование',
+    serial: 'Серийное производство',
     other: 'Другое'
   };
   const deliveryLabels = {
@@ -270,32 +274,29 @@ function closeOrderDetail() {
 }
 
 // Toggle order status
-function toggleOrderStatus(id) {
-  const orders = JSON.parse(localStorage.getItem('sloy_submissions') || '[]');
-  const order = orders.find(o => o.id === id);
+async function toggleOrderStatus(id) {
+  const { data: order } = await db.from('orders').select('status').eq('id', id).single();
   if (!order) return;
 
   const statusCycle = ['new', 'processing', 'done'];
   const currentIndex = statusCycle.indexOf(order.status || 'new');
-  order.status = statusCycle[(currentIndex + 1) % statusCycle.length];
+  const newStatus = statusCycle[(currentIndex + 1) % statusCycle.length];
 
-  localStorage.setItem('sloy_submissions', JSON.stringify(orders));
+  await db.from('orders').update({ status: newStatus }).eq('id', id);
   loadDashboard();
 }
 
 // Delete order
-function deleteOrder(id) {
+async function deleteOrder(id) {
   if (!confirm('Удалить эту заявку?')) return;
-  let orders = JSON.parse(localStorage.getItem('sloy_submissions') || '[]');
-  orders = orders.filter(o => o.id !== id);
-  localStorage.setItem('sloy_submissions', JSON.stringify(orders));
+  await db.from('orders').delete().eq('id', id);
   loadDashboard();
 }
 
 // Clear all orders
-function clearOrders() {
+async function clearOrders() {
   if (!confirm('Удалить все заявки? Это действие нельзя отменить.')) return;
-  localStorage.setItem('sloy_submissions', '[]');
+  await db.from('orders').delete().neq('id', 0);
   loadDashboard();
 }
 
@@ -399,10 +400,13 @@ function resetImageUpload() {
 }
 
 // Export all data
-function exportData() {
+async function exportData() {
+  const { data: products } = await db.from('products').select('*').order('id');
+  const { data: orders } = await db.from('orders').select('*').order('created_at', { ascending: false });
+
   const data = {
-    products: JSON.parse(localStorage.getItem('sloy_products') || '[]'),
-    orders: JSON.parse(localStorage.getItem('sloy_submissions') || '[]'),
+    products: products || [],
+    orders: orders || [],
     exportedAt: new Date().toISOString()
   };
 
@@ -418,20 +422,45 @@ function exportData() {
 }
 
 // Import data
-function importData(event) {
+async function importData(event) {
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload = async (e) => {
     try {
       const data = JSON.parse(e.target.result);
 
       if (data.products && Array.isArray(data.products)) {
-        localStorage.setItem('sloy_products', JSON.stringify(data.products));
+        for (const p of data.products) {
+          await db.from('products').upsert({
+            id: p.id,
+            title: p.title,
+            category: p.category,
+            category_label: p.category_label || p.categoryLabel || '',
+            description: p.description,
+            price: p.price,
+            image: p.image || '',
+            material: p.material || '',
+            size: p.size || '',
+            print_time: p.print_time || ''
+          }, { onConflict: 'id' });
+        }
       }
+
       if (data.orders && Array.isArray(data.orders)) {
-        localStorage.setItem('sloy_submissions', JSON.stringify(data.orders));
+        for (const o of data.orders) {
+          await db.from('orders').upsert({
+            id: o.id,
+            name: o.name || '',
+            phone: o.phone || '',
+            email: o.email || '',
+            service: o.service || '',
+            delivery: o.delivery || '',
+            message: o.message || '',
+            status: o.status || 'new'
+          }, { onConflict: 'id' });
+        }
       }
 
       alert('Данные импортированы! Товаров: ' + (data.products?.length || 0) + ', заявок: ' + (data.orders?.length || 0));

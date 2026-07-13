@@ -1,3 +1,8 @@
+// Supabase
+const SUPABASE_URL = 'https://pgrhrlcnhyyclxeczfer.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_nTJlQvQkDRkj02rUQ1fyRA_b6rg82Gu';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // Navigation scroll effect
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
@@ -66,106 +71,53 @@ function animateCounter(element, target) {
   }, 16);
 }
 
-// Default products catalog
+// Default products for seeding
 const defaultProducts = [
-  {
-    id: 1,
-    title: 'Архитектурный макет жилого комплекса',
-    category: 'decor',
-    categoryLabel: 'Декор',
-    description: 'Детализированный архитектурный макет для застройщиков и&nbsp;архитекторов. Точное воспроизведение этажности, фасадов и&nbsp;благоустройства территории.',
-    price: '4 500',
-    image: '',
-    specs: { 'Материал': 'PLA', 'Размер': '200x150x180 мм', 'Время печати': '12 часов' }
-  },
-  {
-    id: 2,
-    title: 'Набор шестерёнок для прототипа',
-    category: 'tech',
-    categoryLabel: 'Техника',
-    description: 'Комплект из&nbsp;6&nbsp;точных шестерёнок с&nbsp;модульным зацеплением. Подходит для проверки кинематики механизмов перед серийным производством.',
-    price: '2 800',
-    image: '',
-    specs: { 'Материал': 'PETG', 'Размер': '50x50x15 мм (x6)', 'Время печати': '6 часов' }
-  },
-  {
-    id: 3,
-    title: 'Декоративная ваза с геометрическим узором',
-    category: 'decor',
-    categoryLabel: 'Декор',
-    description: 'Стильная ваза с&nbsp;фактурной поверхностью. Печатается как единое целое без склейки. Возможна персонализация: нанесение текста, логотипа или уникального узора.',
-    price: '3 200',
-    image: '',
-    specs: { 'Материал': 'PLA Silk', 'Размер': '120x120x250 мм', 'Время печати': '8 часов' }
-  },
-  {
-    id: 4,
-    title: 'Кронштейн настенного крепления',
-    category: 'tech',
-    categoryLabel: 'Техника',
-    description: 'Прочный функциональный кронштейн для крепления оборудования, камер видеонаблюдения, датчиков. Выдерживает нагрузку до&nbsp;5&nbsp;кг. Варианты цветов: чёрный, белый, серый.',
-    price: '1 900',
-    image: '',
-    specs: { 'Материал': 'ABS', 'Размер': '100x80x60 мм', 'Время печати': '4 часа' }
-  },
-  {
-    id: 5,
-    title: 'Коллекционная фигурка дракона',
-    category: 'gifts',
-    categoryLabel: 'Подарки',
-    description: 'Высокодетализированная фигурка, напечатана на&nbsp;фотополимерном принтере. Чешуя, когти, крылья&nbsp;&mdash; всё проработано до&nbsp;мелочей. Идеальный подарок для коллекционера.',
-    price: '5 600',
-    image: '',
-    specs: { 'Материал': 'Resin', 'Размер': '150x120x200 мм', 'Время печати': '18 часов' }
-  },
-  {
-    id: 6,
-    title: 'Модульный настольный органайзер',
-    category: 'tech',
-    categoryLabel: 'Техника',
-    description: 'Система из&nbsp;соединяемых модулей для хранения канцелярии, инструментов или мелких деталей. Можно комбинировать секции под свои нужды. Минималистичный дизайн.',
-    price: '2 100',
-    image: '',
-    specs: { 'Материал': 'PLA', 'Размер': '200x150x100 мм', 'Время печати': '7 часов' }
-  },
-  {
-    id: 7,
-    title: 'Футляр для наушников',
-    category: 'gifts',
-    categoryLabel: 'Подарки',
-    description: 'Компактный защитный футляр с&nbsp;застёжкой-замком. Точная подгонка под конкретную модель наушников. Защита от&nbsp;ударов и&nbsp;царапин при транспортировке.',
-    price: '1 400',
-    image: '',
-    specs: { 'Материал': 'TPU / PLA', 'Размер': '80x60x40 мм', 'Время печати': '3 часа' }
-  },
-  {
-    id: 8,
-    title: 'Корпус для электроники (Arduino / Raspberry Pi)',
-    category: 'tech',
-    categoryLabel: 'Техника',
-    description: 'Функциональный корпус с&nbsp;вентиляционными отверстиями и&nbsp;вырезами под разъёмы. Подходит для Raspberry Pi 4, Arduino Mega и&nbsp;других плат. Два варианта исполнения.',
-    price: '1 600',
-    image: '',
-    specs: { 'Материал': 'PETG', 'Размер': '120x80x35 мм', 'Время печати': '5 часов' }
-  }
+  { id: 1, title: 'Архитектурный макет жилого комплекса', category: 'decor', category_label: 'Декор', description: 'Детализированный архитектурный макет для застройщиков и архитекторов. Точное воспроизведение этажности, фасадов и благоустройства территории.', price: '4 500', image: '', material: 'PLA', size: '200x150x180 мм', print_time: '12 часов' },
+  { id: 2, title: 'Набор шестерёнок для прототипа', category: 'tech', category_label: 'Техника', description: 'Комплект из 6 точных шестерёнок с модульным зацеплением. Подходит для проверки кинематики механизмов перед серийным производством.', price: '2 800', image: '', material: 'PETG', size: '50x50x15 мм (x6)', print_time: '6 часов' },
+  { id: 3, title: 'Декоративная ваза с геометрическим узором', category: 'decor', category_label: 'Декор', description: 'Стильная ваза с фактурной поверхностью. Печатается как единое целое без склейки. Возможна персонализация: нанесение текста, логотипа или уникального узора.', price: '3 200', image: '', material: 'PLA Silk', size: '120x120x250 мм', print_time: '8 часов' },
+  { id: 4, title: 'Кронштейн настенного крепления', category: 'tech', category_label: 'Техника', description: 'Прочный функциональный кронштейн для крепления оборудования, камер видеонаблюдения, датчиков. Выдерживает нагрузку до 5 кг. Варианты цветов: чёрный, белый, серый.', price: '1 900', image: '', material: 'ABS', size: '100x80x60 мм', print_time: '4 часа' },
+  { id: 5, title: 'Коллекционная фигурка дракона', category: 'gifts', category_label: 'Подарки', description: 'Высокодетализированная фигурка, напечатана на фотополимерном принтере. Чешуя, когти, крылья — всё проработано до мелочей. Идеальный подарок для коллекционера.', price: '5 600', image: '', material: 'Resin', size: '150x120x200 мм', print_time: '18 часов' },
+  { id: 6, title: 'Модульный настольный органайзер', category: 'tech', category_label: 'Техника', description: 'Система из соединяемых модулей для хранения канцелярии, инструментов или мелких деталей. Можно комбинировать секции под свои нужды. Минималистичный дизайн.', price: '2 100', image: '', material: 'PLA', size: '200x150x100 мм', print_time: '7 часов' },
+  { id: 7, title: 'Футляр для наушников', category: 'gifts', category_label: 'Подарки', description: 'Компактный защитный футляр с застёжкой-замком. Точная подгонка под конкретную модель наушников. Защита от ударов и царапин при транспортировке.', price: '1 400', image: '', material: 'TPU / PLA', size: '80x60x40 мм', print_time: '3 часа' },
+  { id: 8, title: 'Корпус для электроники (Arduino / Raspberry Pi)', category: 'tech', category_label: 'Техника', description: 'Функциональный корпус с вентиляционными отверстиями и вырезами под разъёмы. Подходит для Raspberry Pi 4, Arduino Mega и других плат. Два варианта исполнения.', price: '1 600', image: '', material: 'PETG', size: '120x80x35 мм', print_time: '5 часов' }
 ];
 
-// Load products from localStorage or use defaults
-function getProducts() {
-  const stored = localStorage.getItem('sloy_products');
-  if (stored) {
-    return JSON.parse(stored);
+// Convert DB row to app format
+function rowToProduct(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    category: row.category,
+    categoryLabel: row.category_label,
+    description: row.description,
+    price: row.price,
+    image: row.image || '',
+    specs: {
+      'Материал': row.material || '',
+      'Размер': row.size || '',
+      'Время печати': row.print_time || ''
+    }
+  };
+}
+
+// Fetch products from Supabase
+async function getProducts() {
+  const { data, error } = await db.from('products').select('*').order('id');
+  if (error || !data || data.length === 0) {
+    await db.from('products').upsert(defaultProducts, { onConflict: 'id' });
+    const { data: seeded } = await db.from('products').select('*').order('id');
+    return (seeded || []).map(rowToProduct);
   }
-  localStorage.setItem('sloy_products', JSON.stringify(defaultProducts));
-  return defaultProducts;
+  return data.map(rowToProduct);
 }
 
 // Render catalog
-function renderCatalog(filter = 'all') {
+async function renderCatalog(filter = 'all') {
   const grid = document.getElementById('catalogGrid');
   if (!grid) return;
 
-  const products = getProducts();
+  const products = await getProducts();
   const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
 
   if (filtered.length === 0) {
@@ -204,8 +156,8 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 // Product modal
-function openProductModal(productId) {
-  const products = getProducts();
+async function openProductModal(productId) {
+  const products = await getProducts();
   const product = products.find(p => p.id === productId);
   if (!product) return;
 
@@ -254,21 +206,35 @@ function closeProductModal() {
 }
 
 // Form submission
-function handleFormSubmit(e) {
+async function handleFormSubmit(e) {
   e.preventDefault();
   const form = e.target;
   const data = new FormData(form);
   const entries = Object.fromEntries(data.entries());
 
-  // Save to localStorage
-  const submissions = JSON.parse(localStorage.getItem('sloy_submissions') || '[]');
-  entries.id = Date.now();
-  entries.date = new Date().toISOString();
-  entries.status = 'new';
-  submissions.push(entries);
-  localStorage.setItem('sloy_submissions', JSON.stringify(submissions));
+  const btn = form.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.textContent = 'Отправка...';
 
-  // Show success
+  const { error } = await db.from('orders').insert({
+    id: Date.now(),
+    name: entries.name || '',
+    phone: entries.phone || '',
+    email: entries.email || '',
+    service: entries.service || '',
+    delivery: entries.delivery || '',
+    message: entries.message || '',
+    status: 'new'
+  });
+
+  btn.disabled = false;
+  btn.textContent = 'Отправить заявку';
+
+  if (error) {
+    alert('Ошибка отправки. Попробуйте ещё раз.');
+    return false;
+  }
+
   form.reset();
   document.getElementById('formSuccess').classList.add('show');
   setTimeout(() => {
