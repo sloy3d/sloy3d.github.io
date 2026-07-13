@@ -58,6 +58,16 @@
         </div>
       </div>
 
+      <!-- Sync -->
+      <div class="admin-sync-bar">
+        <span class="admin-sync-label">Синхронизация данных</span>
+        <div class="admin-sync-actions">
+          <button class="btn btn-outline" onclick="exportData()">Экспорт</button>
+          <button class="btn btn-outline" onclick="document.getElementById('importFile').click()">Импорт</button>
+          <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)">
+        </div>
+      </div>
+
       <!-- Tabs -->
       <div class="admin-tabs">
         <button class="admin-tab active" data-tab="products">Товары</button>

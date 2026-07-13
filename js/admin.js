@@ -397,3 +397,47 @@ function resetImageUpload() {
   document.getElementById('imagePreviewWrap').style.display = 'none';
   document.getElementById('imagePreview').src = '';
 }
+
+// Export all data
+function exportData() {
+  const data = {
+    products: JSON.parse(localStorage.getItem('sloy_products') || '[]'),
+    orders: JSON.parse(localStorage.getItem('sloy_submissions') || '[]'),
+    exportedAt: new Date().toISOString()
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'sloy-data-' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Import data
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+
+      if (data.products && Array.isArray(data.products)) {
+        localStorage.setItem('sloy_products', JSON.stringify(data.products));
+      }
+      if (data.orders && Array.isArray(data.orders)) {
+        localStorage.setItem('sloy_submissions', JSON.stringify(data.orders));
+      }
+
+      alert('Данные импортированы! Товаров: ' + (data.products?.length || 0) + ', заявок: ' + (data.orders?.length || 0));
+      loadDashboard();
+    } catch (err) {
+      alert('Ошибка: файл повреждён или неверный формат');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}

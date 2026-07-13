@@ -97,6 +97,28 @@
   letter-spacing: 0.05em;
 }
 
+/* Sync bar */
+.admin-sync-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.admin-sync-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.admin-sync-actions {
+  display: flex;
+  gap: 8px;
+}
+
 /* Tabs */
 .admin-tabs {
   display: flex;
