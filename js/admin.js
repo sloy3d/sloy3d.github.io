@@ -10,7 +10,7 @@ const ADMIN_PASS = 'sloy2026';
 // Category labels
 const categoryLabels = {
   decor: 'Декор',
-  tech: 'Техника',
+  home: 'Для дома',
   gifts: 'Подарки',
   custom: 'Кастом'
 };
