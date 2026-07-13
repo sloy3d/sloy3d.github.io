@@ -322,21 +322,36 @@ document.addEventListener('keydown', (e) => {
 // Image upload handling
 const imageUploadArea = document.getElementById('imageUploadArea');
 const imageFileInput = document.getElementById('prodImageFile');
+let dragCounter = 0;
 
-imageUploadArea.addEventListener('click', () => imageFileInput.click());
+imageUploadArea.addEventListener('click', (e) => {
+  if (e.target.closest('.image-remove-btn')) return;
+  imageFileInput.click();
+});
+
+imageUploadArea.addEventListener('dragenter', (e) => {
+  e.preventDefault();
+  dragCounter++;
+  imageUploadArea.classList.add('drag-over');
+});
 
 imageUploadArea.addEventListener('dragover', (e) => {
   e.preventDefault();
-  imageUploadArea.style.borderColor = 'var(--accent)';
 });
 
-imageUploadArea.addEventListener('dragleave', () => {
-  imageUploadArea.style.borderColor = '';
+imageUploadArea.addEventListener('dragleave', (e) => {
+  e.preventDefault();
+  dragCounter--;
+  if (dragCounter <= 0) {
+    dragCounter = 0;
+    imageUploadArea.classList.remove('drag-over');
+  }
 });
 
 imageUploadArea.addEventListener('drop', (e) => {
   e.preventDefault();
-  imageUploadArea.style.borderColor = '';
+  dragCounter = 0;
+  imageUploadArea.classList.remove('drag-over');
   const file = e.dataTransfer.files[0];
   if (file && file.type.startsWith('image/')) {
     processImageFile(file);
@@ -377,7 +392,7 @@ function removeImage() {
 
 function resetImageUpload() {
   document.getElementById('prodImage').value = '';
-  imageFileInput.value = '';
+  if (imageFileInput) imageFileInput.value = '';
   document.getElementById('imagePlaceholder').style.display = '';
   document.getElementById('imagePreviewWrap').style.display = 'none';
   document.getElementById('imagePreview').src = '';

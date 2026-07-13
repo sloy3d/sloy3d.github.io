@@ -286,8 +286,10 @@
   justify-content: center;
 }
 
-.image-upload-area:hover {
+.image-upload-area:hover,
+.image-upload-area.drag-over {
   border-color: var(--accent);
+  background: rgba(200, 169, 126, 0.05);
 }
 
 .image-upload-placeholder span {
