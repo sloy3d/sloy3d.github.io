@@ -129,6 +129,7 @@ function openAddProduct() {
   document.getElementById('editProductId').value = '';
   document.getElementById('productFormTitle').textContent = 'Добавить товар';
   document.getElementById('productForm').reset();
+  resetImageUpload();
   document.getElementById('productModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -149,6 +150,12 @@ function editProduct(id) {
   document.getElementById('prodMaterial').value = product.specs?.Материал || '';
   document.getElementById('prodSize').value = product.specs?.Размер || '';
   document.getElementById('prodTime').value = product.specs?.['Время печати'] || '';
+
+  if (product.image) {
+    showImagePreview(product.image);
+  } else {
+    resetImageUpload();
+  }
 
   document.getElementById('productModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -311,3 +318,67 @@ document.addEventListener('keydown', (e) => {
     });
   }
 });
+
+// Image upload handling
+const imageUploadArea = document.getElementById('imageUploadArea');
+const imageFileInput = document.getElementById('prodImageFile');
+
+imageUploadArea.addEventListener('click', () => imageFileInput.click());
+
+imageUploadArea.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  imageUploadArea.style.borderColor = 'var(--accent)';
+});
+
+imageUploadArea.addEventListener('dragleave', () => {
+  imageUploadArea.style.borderColor = '';
+});
+
+imageUploadArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  imageUploadArea.style.borderColor = '';
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    processImageFile(file);
+  }
+});
+
+imageFileInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) processImageFile(file);
+});
+
+function processImageFile(file) {
+  if (file.size > 2 * 1024 * 1024) {
+    alert('Файл слишком большой. Максимум 2 МБ.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const dataUrl = e.target.result;
+    document.getElementById('prodImage').value = dataUrl;
+    showImagePreview(dataUrl);
+  };
+  reader.readAsDataURL(file);
+}
+
+function showImagePreview(src) {
+  document.getElementById('imagePlaceholder').style.display = 'none';
+  document.getElementById('imagePreviewWrap').style.display = 'inline-block';
+  document.getElementById('imagePreview').src = src;
+}
+
+function removeImage() {
+  document.getElementById('prodImage').value = '';
+  imageFileInput.value = '';
+  resetImageUpload();
+}
+
+function resetImageUpload() {
+  document.getElementById('prodImage').value = '';
+  imageFileInput.value = '';
+  document.getElementById('imagePlaceholder').style.display = '';
+  document.getElementById('imagePreviewWrap').style.display = 'none';
+  document.getElementById('imagePreview').src = '';
+}
