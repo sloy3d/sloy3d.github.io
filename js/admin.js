@@ -411,7 +411,9 @@ function exportData() {
   const a = document.createElement('a');
   a.href = url;
   a.download = 'sloy-data-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
