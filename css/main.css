@@ -713,36 +713,77 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
   transition: var(--transition);
+  position: relative;
 }
 
 .spool:hover {
   transform: translateY(-6px);
 }
 
-/* Spool body - filament wound on the spool */
+/* Spool disc - side view of filament spool */
 .spool::before {
   content: '';
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   background:
-    /* Outer flange ring */
+    /* Outer rim */
     radial-gradient(circle at center,
-      transparent 30%,
-      var(--spool-color) 30%,
-      var(--spool-color) 75%,
-      #3a3a3a 75%,
-      #3a3a3a 82%,
-      #2a2a2a 82%,
-      #2a2a2a 100%
+      #2a2a2a 0%,
+      #2a2a2a 12%,
+      var(--spool-color) 12%,
+      var(--spool-color) 35%,
+      /* Filament texture lines */
+      color-mix(in srgb, var(--spool-color), black 8%) 35%,
+      var(--spool-color) 37%,
+      color-mix(in srgb, var(--spool-color), black 8%) 37%,
+      var(--spool-color) 39%,
+      color-mix(in srgb, var(--spool-color), black 8%) 39%,
+      var(--spool-color) 41%,
+      color-mix(in srgb, var(--spool-color), black 8%) 41%,
+      var(--spool-color) 43%,
+      color-mix(in srgb, var(--spool-color), black 8%) 43%,
+      var(--spool-color) 45%,
+      color-mix(in srgb, var(--spool-color), black 8%) 45%,
+      var(--spool-color) 47%,
+      color-mix(in srgb, var(--spool-color), black 8%) 47%,
+      var(--spool-color) 49%,
+      color-mix(in srgb, var(--spool-color), black 8%) 49%,
+      var(--spool-color) 51%,
+      color-mix(in srgb, var(--spool-color), black 8%) 51%,
+      var(--spool-color) 53%,
+      color-mix(in srgb, var(--spool-color), black 8%) 53%,
+      var(--spool-color) 55%,
+      color-mix(in srgb, var(--spool-color), black 8%) 55%,
+      var(--spool-color) 57%,
+      color-mix(in srgb, var(--spool-color), black 8%) 57%,
+      var(--spool-color) 59%,
+      color-mix(in srgb, var(--spool-color), black 8%) 59%,
+      var(--spool-color) 61%,
+      color-mix(in srgb, var(--spool-color), black 8%) 61%,
+      var(--spool-color) 63%,
+      color-mix(in srgb, var(--spool-color), black 8%) 63%,
+      var(--spool-color) 65%,
+      color-mix(in srgb, var(--spool-color), black 8%) 65%,
+      var(--spool-color) 67%,
+      color-mix(in srgb, var(--spool-color), black 8%) 67%,
+      var(--spool-color) 69%,
+      /* Outer flange */
+      #3a3a3a 69%,
+      #3a3a3a 80%,
+      #333 80%,
+      #333 85%,
+      #2a2a2a 85%,
+      #222 100%
     );
   box-shadow:
-    0 4px 20px rgba(0,0,0,0.4),
-    inset 0 2px 4px rgba(255,255,255,0.1),
-    inset 0 -2px 4px rgba(0,0,0,0.3);
+    0 6px 24px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -2px 6px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(255,255,255,0.04);
   transition: var(--transition);
   display: block;
   position: relative;
@@ -750,42 +791,44 @@ img {
 
 .spool:hover::before {
   box-shadow:
-    0 8px 30px rgba(0,0,0,0.5),
-    inset 0 2px 4px rgba(255,255,255,0.15),
-    inset 0 -2px 4px rgba(0,0,0,0.3),
-    0 0 15px rgba(0,0,0,0.2);
-  transform: scale(1.05);
+    0 10px 36px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -2px 6px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(255,255,255,0.06);
+  transform: scale(1.06);
 }
 
-/* Center hub */
+/* Center hub - metallic look */
 .spool::after {
   content: '';
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 40% 35%,
-      #555 0%,
-      #3a3a3a 40%,
-      #2a2a2a 70%,
-      #1a1a1a 100%
+    radial-gradient(circle at 35% 30%,
+      #666 0%,
+      #4a4a4a 30%,
+      #333 60%,
+      #222 100%
     );
   position: absolute;
-  margin-top: 29px;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
   box-shadow:
-    inset 0 2px 4px rgba(0,0,0,0.5),
-    0 1px 2px rgba(255,255,255,0.05);
+    inset 0 1px 3px rgba(0,0,0,0.6),
+    0 1px 1px rgba(255,255,255,0.05);
   z-index: 2;
   pointer-events: none;
 }
 
 .spool-name {
-  font-size: 0.68rem;
-  font-weight: 500;
+  font-size: 0.65rem;
+  font-weight: 600;
   color: var(--text-secondary);
   text-align: center;
   line-height: 1.3;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   transition: var(--transition);
 }
 
@@ -796,26 +839,26 @@ img {
 /* Special metallic/neon spools */
 .spool-special::before {
   box-shadow:
-    0 4px 20px rgba(0,0,0,0.4),
-    inset 0 2px 4px rgba(255,255,255,0.1),
-    inset 0 -2px 4px rgba(0,0,0,0.3),
-    0 0 15px var(--spool-color);
+    0 6px 24px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -2px 6px rgba(0,0,0,0.4),
+    0 0 20px color-mix(in srgb, var(--spool-color), transparent 60%);
 }
 
 .spool-special:hover::before {
   box-shadow:
-    0 8px 30px rgba(0,0,0,0.5),
-    inset 0 2px 4px rgba(255,255,255,0.15),
-    inset 0 -2px 4px rgba(0,0,0,0.3),
-    0 0 25px var(--spool-color);
+    0 10px 36px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -2px 6px rgba(0,0,0,0.4),
+    0 0 30px color-mix(in srgb, var(--spool-color), transparent 50%);
 }
 
 /* White/light spools - add border */
 .spool-white::before {
   box-shadow:
-    0 4px 20px rgba(0,0,0,0.4),
-    inset 0 0 0 1px rgba(255,255,255,0.3),
-    inset 0 2px 4px rgba(255,255,255,0.1);
+    0 6px 24px rgba(0,0,0,0.5),
+    inset 0 0 0 2px rgba(255,255,255,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
 /* White spool border fix */
@@ -1716,21 +1759,21 @@ img {
 
   /* Materials */
   .spools-grid {
-    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
-    gap: 20px 14px;
-    max-height: 240px;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 18px 12px;
+    max-height: 220px;
   }
   .spool::before {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
   }
   .spool::after {
-    width: 16px;
-    height: 16px;
-    margin-top: 22px;
+    width: 14px;
+    height: 14px;
+    top: 25px;
   }
   .spool-name {
-    font-size: 0.6rem;
+    font-size: 0.58rem;
   }
   .materials-row {
     gap: 8px;
