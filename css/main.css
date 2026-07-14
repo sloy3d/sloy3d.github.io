@@ -1392,6 +1392,7 @@ img {
   .hero-content {
     padding-right: 20px;
     margin-left: 0;
+    max-width: 100%;
   }
 
   .hero {
@@ -1416,6 +1417,7 @@ img {
   }
 
   .hero-actions-mobile {
+    display: block;
     position: absolute;
     bottom: 42%;
     left: 0;
