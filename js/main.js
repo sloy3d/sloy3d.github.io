@@ -45,6 +45,14 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+// Spools toggle
+function toggleSpools() {
+  const grid = document.getElementById('spoolsGrid');
+  const btn = document.getElementById('spoolsToggle');
+  grid.classList.toggle('expanded');
+  btn.textContent = grid.classList.contains('expanded') ? 'Свернуть' : 'Показать все цвета';
+}
+
 // Counter animation
 const counterObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {

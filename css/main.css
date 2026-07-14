@@ -664,53 +664,118 @@ img {
   color: var(--accent);
 }
 
-.spools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: 20px;
+/* Spools wrapper - collapsible */
+.spools-wrapper {
+  position: relative;
 }
 
+.spools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 28px 20px;
+  max-height: 320px;
+  overflow: hidden;
+  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.spools-grid.expanded {
+  max-height: 3000px;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.spools-toggle {
+  display: block;
+  margin: 32px auto 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 14px 40px;
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.spools-toggle:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* Realistic spool */
 .spool {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .spool:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
 }
 
+/* Spool body - filament wound on the spool */
 .spool::before {
   content: '';
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: var(--spool-color);
-  position: relative;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  background:
+    /* Outer flange ring */
+    radial-gradient(circle at center,
+      transparent 30%,
+      var(--spool-color) 30%,
+      var(--spool-color) 75%,
+      #3a3a3a 75%,
+      #3a3a3a 82%,
+      #2a2a2a 82%,
+      #2a2a2a 100%
+    );
+  box-shadow:
+    0 4px 20px rgba(0,0,0,0.4),
+    inset 0 2px 4px rgba(255,255,255,0.1),
+    inset 0 -2px 4px rgba(0,0,0,0.3);
   transition: var(--transition);
   display: block;
+  position: relative;
 }
 
 .spool:hover::before {
-  box-shadow: 0 6px 24px rgba(0,0,0,0.5);
-  transform: scale(1.08);
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.5),
+    inset 0 2px 4px rgba(255,255,255,0.15),
+    inset 0 -2px 4px rgba(0,0,0,0.3),
+    0 0 15px rgba(0,0,0,0.2);
+  transform: scale(1.05);
 }
 
-.spool-inner {
-  width: 24px;
-  height: 24px;
+/* Center hub */
+.spool::after {
+  content: '';
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  background: var(--bg-primary);
-  margin-top: -48px;
-  margin-bottom: 24px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+  background:
+    radial-gradient(circle at 40% 35%,
+      #555 0%,
+      #3a3a3a 40%,
+      #2a2a2a 70%,
+      #1a1a1a 100%
+    );
+  position: absolute;
+  margin-top: 29px;
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.5),
+    0 1px 2px rgba(255,255,255,0.05);
   z-index: 2;
   pointer-events: none;
-  position: relative;
 }
 
 .spool-name {
@@ -720,32 +785,44 @@ img {
   text-align: center;
   line-height: 1.3;
   letter-spacing: 0.02em;
+  transition: var(--transition);
 }
 
 .spool:hover .spool-name {
   color: var(--text-primary);
 }
 
+/* Special metallic/neon spools */
 .spool-special::before {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 0 12px var(--spool-color);
+  box-shadow:
+    0 4px 20px rgba(0,0,0,0.4),
+    inset 0 2px 4px rgba(255,255,255,0.1),
+    inset 0 -2px 4px rgba(0,0,0,0.3),
+    0 0 15px var(--spool-color);
 }
 
 .spool-special:hover::before {
-  box-shadow: 0 6px 24px rgba(0,0,0,0.5), 0 0 20px var(--spool-color);
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.5),
+    inset 0 2px 4px rgba(255,255,255,0.15),
+    inset 0 -2px 4px rgba(0,0,0,0.3),
+    0 0 25px var(--spool-color);
+}
+
+/* White/light spools - add border */
+.spool-white::before {
+  box-shadow:
+    0 4px 20px rgba(0,0,0,0.4),
+    inset 0 0 0 1px rgba(255,255,255,0.3),
+    inset 0 2px 4px rgba(255,255,255,0.1);
 }
 
 /* White spool border fix */
-.spool[style*="#FFFFFF"]::before,
-.spool[style*="#ffffff"]::before,
-.spool[style*="#E0E0E0"]::before,
-.spool[style*="#D7CCC8"]::before,
-.spool[style*="#F8BBD0"]::before,
-.spool[style*="#E1BEE7"]::before,
-.spool[style*="#90CAF9"]::before,
-.spool[style*="#A5D6A7"]::before,
-.spool[style*="#FFB74D"]::before,
-.spool[style*="#FFF176"]::before {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.2);
+.spool-white::before {
+  box-shadow:
+    0 4px 20px rgba(0,0,0,0.4),
+    inset 0 0 0 1px rgba(255,255,255,0.3),
+    inset 0 2px 4px rgba(255,255,255,0.1);
 }
 
 /* Catalog */
@@ -1638,18 +1715,18 @@ img {
 
   /* Materials */
   .spools-grid {
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    gap: 20px 14px;
+    max-height: 240px;
   }
   .spool::before {
-    width: 56px;
-    height: 56px;
+    width: 60px;
+    height: 60px;
   }
-  .spool-inner {
-    width: 18px;
-    height: 18px;
-    margin-top: -37px;
-    margin-bottom: 19px;
+  .spool::after {
+    width: 16px;
+    height: 16px;
+    margin-top: 22px;
   }
   .spool-name {
     font-size: 0.6rem;
