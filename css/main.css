@@ -708,118 +708,124 @@ img {
   color: var(--bg-primary);
 }
 
-/* Realistic spool */
+/* Realistic spool - 3D tilted view */
 .spool {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   cursor: pointer;
   transition: var(--transition);
   position: relative;
+  perspective: 400px;
 }
 
 .spool:hover {
   transform: translateY(-6px);
 }
 
-/* Spool disc - side view of filament spool */
-.spool::before {
-  content: '';
+.spool-body {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(12deg) rotateY(-22deg);
+  transition: var(--transition);
+}
+
+.spool:hover .spool-body {
+  transform: rotateX(8deg) rotateY(-18deg) scale(1.06);
+}
+
+/* Front face - filament */
+.spool-front {
+  position: absolute;
   width: 90px;
   height: 90px;
   border-radius: 50%;
   background:
-    /* Outer rim */
     radial-gradient(circle at center,
-      #2a2a2a 0%,
-      #2a2a2a 12%,
-      var(--spool-color) 12%,
-      var(--spool-color) 35%,
-      /* Filament texture lines */
-      color-mix(in srgb, var(--spool-color), black 8%) 35%,
-      var(--spool-color) 37%,
-      color-mix(in srgb, var(--spool-color), black 8%) 37%,
-      var(--spool-color) 39%,
-      color-mix(in srgb, var(--spool-color), black 8%) 39%,
-      var(--spool-color) 41%,
-      color-mix(in srgb, var(--spool-color), black 8%) 41%,
-      var(--spool-color) 43%,
-      color-mix(in srgb, var(--spool-color), black 8%) 43%,
-      var(--spool-color) 45%,
-      color-mix(in srgb, var(--spool-color), black 8%) 45%,
-      var(--spool-color) 47%,
-      color-mix(in srgb, var(--spool-color), black 8%) 47%,
-      var(--spool-color) 49%,
-      color-mix(in srgb, var(--spool-color), black 8%) 49%,
-      var(--spool-color) 51%,
-      color-mix(in srgb, var(--spool-color), black 8%) 51%,
-      var(--spool-color) 53%,
-      color-mix(in srgb, var(--spool-color), black 8%) 53%,
-      var(--spool-color) 55%,
-      color-mix(in srgb, var(--spool-color), black 8%) 55%,
-      var(--spool-color) 57%,
-      color-mix(in srgb, var(--spool-color), black 8%) 57%,
-      var(--spool-color) 59%,
-      color-mix(in srgb, var(--spool-color), black 8%) 59%,
-      var(--spool-color) 61%,
-      color-mix(in srgb, var(--spool-color), black 8%) 61%,
-      var(--spool-color) 63%,
-      color-mix(in srgb, var(--spool-color), black 8%) 63%,
-      var(--spool-color) 65%,
-      color-mix(in srgb, var(--spool-color), black 8%) 65%,
-      var(--spool-color) 67%,
-      color-mix(in srgb, var(--spool-color), black 8%) 67%,
-      var(--spool-color) 69%,
-      /* Outer flange */
-      #3a3a3a 69%,
+      #333 0%,
+      #333 14%,
+      var(--spool-color) 14%,
+      var(--spool-color) 70%,
+      #3a3a3a 70%,
       #3a3a3a 80%,
-      #333 80%,
-      #333 85%,
-      #2a2a2a 85%,
+      #2a2a2a 80%,
       #222 100%
     );
   box-shadow:
-    0 6px 24px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -2px 6px rgba(0,0,0,0.4),
-    0 0 0 1px rgba(255,255,255,0.04);
-  transition: var(--transition);
-  display: block;
-  position: relative;
+    inset 0 0 0 2px rgba(0,0,0,0.3),
+    inset 0 2px 8px rgba(255,255,255,0.08);
+  backface-visibility: hidden;
 }
 
-.spool:hover::before {
-  box-shadow:
-    0 10px 36px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -2px 6px rgba(0,0,0,0.4),
-    0 0 0 1px rgba(255,255,255,0.06);
-  transform: scale(1.06);
-}
-
-/* Center hub - metallic look */
-.spool::after {
+/* Filament texture on front */
+.spool-front::before {
   content: '';
-  width: 20px;
-  height: 20px;
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    transparent 0deg 4deg,
+    rgba(0,0,0,0.06) 4deg 5deg,
+    transparent 5deg 9deg
+  );
+}
+
+/* Center hub */
+.spool-front::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   background:
     radial-gradient(circle at 35% 30%,
-      #666 0%,
-      #4a4a4a 30%,
-      #333 60%,
+      #555 0%,
+      #3a3a3a 40%,
       #222 100%
     );
+  box-shadow:
+    inset 0 1px 3px rgba(0,0,0,0.7),
+    0 1px 1px rgba(255,255,255,0.05);
+}
+
+/* Side edge - visible due to 3D rotation */
+.spool-side {
   position: absolute;
-  top: 35px;
+  width: 90px;
+  height: 8px;
+  background:
+    linear-gradient(to right,
+      #2a2a2a 0%,
+      #3a3a3a 14%,
+      var(--spool-color) 14%,
+      var(--spool-color) 70%,
+      #3a3a3a 70%,
+      #2a2a2a 100%
+    );
+  transform: rotateX(90deg) translateZ(4px);
+  transform-origin: bottom center;
+  bottom: 0;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Shadow underneath */
+.spool-shadow {
+  position: absolute;
+  width: 80px;
+  height: 12px;
+  bottom: -16px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow:
-    inset 0 1px 3px rgba(0,0,0,0.6),
-    0 1px 1px rgba(255,255,255,0.05);
-  z-index: 2;
-  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, transparent 70%);
+  filter: blur(4px);
 }
 
 .spool-name {
@@ -837,28 +843,25 @@ img {
 }
 
 /* Special metallic/neon spools */
-.spool-special::before {
+.spool-special .spool-front {
   box-shadow:
-    0 6px 24px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -2px 6px rgba(0,0,0,0.4),
+    inset 0 0 0 2px rgba(0,0,0,0.3),
+    inset 0 2px 8px rgba(255,255,255,0.08),
     0 0 20px color-mix(in srgb, var(--spool-color), transparent 60%);
 }
 
-.spool-special:hover::before {
+.spool-special:hover .spool-front {
   box-shadow:
-    0 10px 36px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.12),
-    inset 0 -2px 6px rgba(0,0,0,0.4),
+    inset 0 0 0 2px rgba(0,0,0,0.3),
+    inset 0 2px 8px rgba(255,255,255,0.12),
     0 0 30px color-mix(in srgb, var(--spool-color), transparent 50%);
 }
 
-/* White/light spools - add border */
-.spool-white::before {
+/* White/light spools */
+.spool-white .spool-front {
   box-shadow:
-    0 6px 24px rgba(0,0,0,0.5),
-    inset 0 0 0 2px rgba(255,255,255,0.15),
-    inset 0 1px 0 rgba(255,255,255,0.1);
+    inset 0 0 0 2px rgba(255,255,255,0.2),
+    inset 0 2px 8px rgba(255,255,255,0.05);
 }
 
 /* White spool border fix */
@@ -1763,14 +1766,27 @@ img {
     gap: 18px 12px;
     max-height: 220px;
   }
-  .spool::before {
+  .spool-body {
     width: 65px;
     height: 65px;
   }
-  .spool::after {
-    width: 14px;
-    height: 14px;
-    top: 25px;
+  .spool-front {
+    width: 65px;
+    height: 65px;
+  }
+  .spool-side {
+    width: 65px;
+    height: 6px;
+    transform: rotateX(90deg) translateZ(3px);
+  }
+  .spool-shadow {
+    width: 55px;
+    height: 8px;
+    bottom: -12px;
+  }
+  .spool-front::after {
+    width: 16px;
+    height: 16px;
   }
   .spool-name {
     font-size: 0.58rem;
