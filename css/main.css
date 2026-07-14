@@ -708,7 +708,7 @@ img {
   color: var(--bg-primary);
 }
 
-/* Realistic spool - 3D tilted view */
+/* Realistic spool - 3D tilted view with flanges */
 .spool {
   display: flex;
   flex-direction: column;
@@ -717,115 +717,155 @@ img {
   cursor: pointer;
   transition: var(--transition);
   position: relative;
-  perspective: 400px;
+  perspective: 500px;
+  padding-bottom: 16px;
 }
 
 .spool:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
 }
 
 .spool-body {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   position: relative;
   transform-style: preserve-3d;
-  transform: rotateX(12deg) rotateY(-22deg);
+  transform: rotateX(18deg) rotateY(-25deg);
   transition: var(--transition);
 }
 
 .spool:hover .spool-body {
-  transform: rotateX(8deg) rotateY(-18deg) scale(1.06);
+  transform: rotateX(14deg) rotateY(-20deg) scale(1.05);
 }
 
-/* Front face - filament */
-.spool-front {
+/* Back flange (behind the filament) */
+.spool-back {
   position: absolute;
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 45% 40%,
+      #4a4a4a 0%,
+      #3a3a3a 50%,
+      #2a2a2a 100%
+    );
+  transform: translateZ(-6px);
+  box-shadow:
+    inset 0 0 0 3px #222,
+    inset 0 2px 6px rgba(0,0,0,0.5);
+}
+
+/* Filament wound around hub - visible between flanges */
+.spool-filament {
+  position: absolute;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background:
     radial-gradient(circle at center,
       #333 0%,
-      #333 14%,
-      var(--spool-color) 14%,
-      var(--spool-color) 70%,
-      #3a3a3a 70%,
-      #3a3a3a 80%,
-      #2a2a2a 80%,
-      #222 100%
+      #333 16%,
+      var(--spool-color) 16%,
+      var(--spool-color) 68%,
+      transparent 68%
     );
-  box-shadow:
-    inset 0 0 0 2px rgba(0,0,0,0.3),
-    inset 0 2px 8px rgba(255,255,255,0.08);
-  backface-visibility: hidden;
+  transform: translateZ(0px);
 }
 
-/* Filament texture on front */
-.spool-front::before {
+/* Filament texture - wound lines */
+.spool-filament::before {
   content: '';
   position: absolute;
-  inset: 14%;
+  inset: 16%;
   border-radius: 50%;
   background: repeating-conic-gradient(
     from 0deg,
-    transparent 0deg 4deg,
-    rgba(0,0,0,0.06) 4deg 5deg,
-    transparent 5deg 9deg
+    transparent 0deg 3deg,
+    rgba(0,0,0,0.07) 3deg 4deg,
+    transparent 4deg 7deg
   );
 }
 
-/* Center hub */
-.spool-front::after {
+/* Front flange - the outer disc with hole */
+.spool-front {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center,
+      transparent 0%,
+      transparent 66%,
+      #4a4a4a 66%,
+      #4a4a4a 72%,
+      #3a3a3a 72%,
+      #3a3a3a 80%,
+      #333 80%,
+      #2a2a2a 100%
+    );
+  transform: translateZ(6px);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,0.06),
+    inset 0 -2px 4px rgba(0,0,0,0.3);
+}
+
+/* Inner rim highlight on front flange */
+.spool-front::before {
   content: '';
   position: absolute;
-  width: 22px;
-  height: 22px;
+  inset: 30%;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.04);
+}
+
+/* Center hub */
+.spool-hub {
+  position: absolute;
+  width: 24px;
+  height: 24px;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) translateZ(8px);
   border-radius: 50%;
   background:
     radial-gradient(circle at 35% 30%,
-      #555 0%,
-      #3a3a3a 40%,
+      #666 0%,
+      #4a4a4a 30%,
+      #333 60%,
       #222 100%
     );
   box-shadow:
     inset 0 1px 3px rgba(0,0,0,0.7),
-    0 1px 1px rgba(255,255,255,0.05);
+    0 1px 1px rgba(255,255,255,0.08);
+  z-index: 5;
 }
 
-/* Side edge - visible due to 3D rotation */
-.spool-side {
+/* Hub center hole */
+.spool-hub::after {
+  content: '';
   position: absolute;
-  width: 90px;
+  width: 8px;
   height: 8px;
-  background:
-    linear-gradient(to right,
-      #2a2a2a 0%,
-      #3a3a3a 14%,
-      var(--spool-color) 14%,
-      var(--spool-color) 70%,
-      #3a3a3a 70%,
-      #2a2a2a 100%
-    );
-  transform: rotateX(90deg) translateZ(4px);
-  transform-origin: bottom center;
-  bottom: 0;
-  border-radius: 0 0 4px 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #1a1a1a;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
 }
 
 /* Shadow underneath */
 .spool-shadow {
   position: absolute;
   width: 80px;
-  height: 12px;
-  bottom: -16px;
+  height: 14px;
+  bottom: 6px;
   left: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, transparent 70%);
-  filter: blur(4px);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, transparent 70%);
+  filter: blur(5px);
+  z-index: -1;
 }
 
 .spool-name {
@@ -843,25 +883,30 @@ img {
 }
 
 /* Special metallic/neon spools */
-.spool-special .spool-front {
-  box-shadow:
-    inset 0 0 0 2px rgba(0,0,0,0.3),
-    inset 0 2px 8px rgba(255,255,255,0.08),
-    0 0 20px color-mix(in srgb, var(--spool-color), transparent 60%);
+.spool-special .spool-filament {
+  filter: brightness(1.1);
 }
 
-.spool-special:hover .spool-front {
+.spool-special .spool-front {
   box-shadow:
-    inset 0 0 0 2px rgba(0,0,0,0.3),
-    inset 0 2px 8px rgba(255,255,255,0.12),
-    0 0 30px color-mix(in srgb, var(--spool-color), transparent 50%);
+    inset 0 0 0 2px rgba(255,255,255,0.06),
+    inset 0 -2px 4px rgba(0,0,0,0.3),
+    0 0 20px color-mix(in srgb, var(--spool-color), transparent 70%);
 }
 
 /* White/light spools */
 .spool-white .spool-front {
-  box-shadow:
-    inset 0 0 0 2px rgba(255,255,255,0.2),
-    inset 0 2px 8px rgba(255,255,255,0.05);
+  background:
+    radial-gradient(circle at center,
+      transparent 0%,
+      transparent 66%,
+      #666 66%,
+      #666 72%,
+      #555 72%,
+      #555 80%,
+      #444 80%,
+      #333 100%
+    );
 }
 
 /* White spool border fix */
@@ -1763,30 +1808,31 @@ img {
   /* Materials */
   .spools-grid {
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 18px 12px;
-    max-height: 220px;
+    gap: 20px 12px;
+    max-height: 240px;
   }
   .spool-body {
-    width: 65px;
-    height: 65px;
+    width: 70px;
+    height: 70px;
   }
+  .spool-back,
+  .spool-filament,
   .spool-front {
-    width: 65px;
-    height: 65px;
+    width: 70px;
+    height: 70px;
   }
-  .spool-side {
-    width: 65px;
+  .spool-hub {
+    width: 18px;
+    height: 18px;
+  }
+  .spool-hub::after {
+    width: 6px;
     height: 6px;
-    transform: rotateX(90deg) translateZ(3px);
   }
   .spool-shadow {
     width: 55px;
-    height: 8px;
-    bottom: -12px;
-  }
-  .spool-front::after {
-    width: 16px;
-    height: 16px;
+    height: 10px;
+    bottom: 8px;
   }
   .spool-name {
     font-size: 0.58rem;
