@@ -45,6 +45,80 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+// Parallax scrolling
+function initParallax() {
+  const parallaxElements = document.querySelectorAll('[data-parallax]');
+  if (!parallaxElements.length) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    parallaxElements.forEach(el => {
+      const speed = parseFloat(el.dataset.parallax) || 0.3;
+      const rect = el.getBoundingClientRect();
+      const offset = (rect.top + scrollY) * speed - scrollY * speed;
+      el.style.transform = `translateY(${offset}px)`;
+    });
+  }, { passive: true });
+}
+
+// Mouse parallax on hero
+function initHeroParallax() {
+  const hero = document.querySelector('.hero');
+  const heroVisual = document.querySelector('.hero-visual');
+  if (!hero || !heroVisual) return;
+
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    heroVisual.style.transform = `translate(calc(-50% + ${x * 20}px), calc(-50% + ${y * 15}px))`;
+  });
+
+  hero.addEventListener('mouseleave', () => {
+    heroVisual.style.transform = 'translate(-50%, -50%)';
+  });
+}
+
+// Staggered animation for grid items
+function initStaggeredAnimations() {
+  const grids = document.querySelectorAll('.features-grid, .services-list, .process-grid, .spools-grid, .catalog-grid');
+  grids.forEach(grid => {
+    const items = grid.children;
+    const staggerObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          Array.from(items).forEach((item, i) => {
+            item.style.transitionDelay = `${i * 0.08}s`;
+            item.classList.add('stagger-visible');
+          });
+          staggerObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    staggerObserver.observe(grid);
+  });
+}
+
+// Scroll progress indicator
+function initScrollProgress() {
+  const progressBar = document.createElement('div');
+  progressBar.className = 'scroll-progress';
+  document.body.prepend(progressBar);
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    progressBar.style.width = `${progress}%`;
+  }, { passive: true });
+}
+
+// Init all animations
+initParallax();
+initHeroParallax();
+initStaggeredAnimations();
+initScrollProgress();
+
 // Spools toggle
 function toggleSpools() {
   const grid = document.getElementById('spoolsGrid');
