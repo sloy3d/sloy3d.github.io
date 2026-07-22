@@ -1,7 +1,10 @@
 // Supabase
-const SUPABASE_URL = 'https://pgrhrlcnhyyclxeczfer.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_nTJlQvQkDRkj02rUQ1fyRA_b6rg82Gu';
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let db = null;
+try {
+  const SUPABASE_URL = 'https://pgrhrlcnhyyclxeczfer.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_nTJlQvQkDRkj02rUQ1fyRA_b6rg82Gu';
+  db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (e) { console.warn('Supabase init failed:', e); }
 
 // Admin credentials
 const ADMIN_USER = 'admin';

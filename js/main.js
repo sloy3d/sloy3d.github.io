@@ -1,7 +1,10 @@
 // Supabase
-const SUPABASE_URL = 'https://pgrhrlcnhyyclxeczfer.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_nTJlQvQkDRkj02rUQ1fyRA_b6rg82Gu';
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let db = null;
+try {
+  const SUPABASE_URL = 'https://pgrhrlcnhyyclxeczfer.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_nTJlQvQkDRkj02rUQ1fyRA_b6rg82Gu';
+  db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (e) { console.warn('Supabase init failed:', e); }
 
 // Navigation scroll effect
 const nav = document.getElementById('nav');
@@ -153,6 +156,18 @@ function animateCounter(element, target) {
   }, 16);
 }
 
+// Default products for seeding
+const defaultProducts = [
+  { id: 1, title: 'Архитектурный макет жилого комплекса', category: 'decor', category_label: 'Декор', description: 'Детализированный архитектурный макет для застройщиков и архитекторов. Точное воспроизведение этажности, фасадов и благоустройства территории.', price: '4 500', image: '', material: 'PLA', size: '200x150x180 мм', print_time: '12 часов' },
+  { id: 2, title: 'Набор шестерёнок для прототипа', category: 'home', category_label: 'Для дома', description: 'Комплект из 6 точных шестерёнок с модульным зацеплением. Подходит для проверки кинематики механизмов перед серийным производством.', price: '2 800', image: '', material: 'PETG', size: '50x50x15 мм (x6)', print_time: '6 часов' },
+  { id: 3, title: 'Декоративная ваза с геометрическим узором', category: 'decor', category_label: 'Декор', description: 'Стильная ваза с фактурной поверхностью. Печатается как единое целое без склейки. Возможна персонализация: нанесение текста, логотипа или уникального узора.', price: '3 200', image: '', material: 'PLA Silk', size: '120x120x250 мм', print_time: '8 часов' },
+  { id: 4, title: 'Кронштейн настенного крепления', category: 'home', category_label: 'Для дома', description: 'Прочный функциональный кронштейн для крепления оборудования, камер видеонаблюдения, датчиков. Выдерживает нагрузку до 5 кг. Варианты цветов: чёрный, белый, серый.', price: '1 900', image: '', material: 'ABS', size: '100x80x60 мм', print_time: '4 часа' },
+  { id: 5, title: 'Коллекционная фигурка дракона', category: 'gifts', category_label: 'Подарки', description: 'Высокодетализированная фигурка, напечатана на фотополимерном принтере. Чешуя, когти, крылья — всё проработано до мелочей. Идеальный подарок для коллекционера.', price: '5 600', image: '', material: 'Resin', size: '150x120x200 мм', print_time: '18 часов' },
+  { id: 6, title: 'Модульный настольный органайзер', category: 'home', category_label: 'Для дома', description: 'Система из соединяемых модулей для хранения канцелярии, инструментов или мелких деталей. Можно комбинировать секции под свои нужды. Минималистичный дизайн.', price: '2 100', image: '', material: 'PLA', size: '200x150x100 мм', print_time: '7 часов' },
+  { id: 7, title: 'Футляр для наушников', category: 'gifts', category_label: 'Подарки', description: 'Компактный защитный футляр с застёжкой-замком. Точная подгонка под конкретную модель наушников. Защита от ударов и царапин при транспортировке.', price: '1 400', image: '', material: 'TPU / PLA', size: '80x60x40 мм', print_time: '3 часа' },
+  { id: 8, title: 'Корпус для электроники (Arduino / Raspberry Pi)', category: 'home', category_label: 'Для дома', description: 'Функциональный корпус с вентиляционными отверстиями и вырезами под разъёмы. Подходит для Raspberry Pi 4, Arduino Mega и других плат. Два варианта исполнения.', price: '1 600', image: '', material: 'PETG', size: '120x80x35 мм', print_time: '5 часов' }
+];
+
 // Convert DB row to app format
 function rowToProduct(row) {
   return {
@@ -171,10 +186,30 @@ function rowToProduct(row) {
   };
 }
 
-// Fetch products from Supabase
+// Fetch products: Supabase → localStorage cache → defaultProducts
 async function getProducts() {
-  const { data } = await db.from('products').select('*').order('id');
-  return (data || []).map(rowToProduct);
+  // Try Supabase first
+  if (db) {
+    try {
+      const { data, error } = await db.from('products').select('*').order('id');
+      if (!error && data && data.length > 0) {
+        const products = data.map(rowToProduct);
+        localStorage.setItem('sloy_products_cache', JSON.stringify(products));
+        localStorage.setItem('sloy_products_cache_time', Date.now().toString());
+        return products;
+      }
+    } catch (e) { /* fall through */ }
+  }
+  // Try localStorage cache (valid for 7 days)
+  try {
+    const cached = localStorage.getItem('sloy_products_cache');
+    const cacheTime = parseInt(localStorage.getItem('sloy_products_cache_time') || '0');
+    if (cached && Date.now() - cacheTime < 7 * 24 * 60 * 60 * 1000) {
+      return JSON.parse(cached);
+    }
+  } catch (e) { /* fall through */ }
+  // Final fallback: built-in defaults
+  return defaultProducts.map(rowToProduct);
 }
 
 // Render catalog
@@ -281,21 +316,25 @@ async function handleFormSubmit(e) {
   btn.disabled = true;
   btn.textContent = 'Отправка...';
 
-  const { error } = await db.from('orders').insert({
-    id: Date.now(),
-    name: entries.name || '',
-    phone: entries.phone || '',
-    email: entries.email || '',
-    service: entries.service || '',
-    delivery: entries.delivery || '',
-    message: entries.message || '',
-    status: 'new'
-  });
+  let success = false;
+  if (db) {
+    const { error } = await db.from('orders').insert({
+      id: Date.now(),
+      name: entries.name || '',
+      phone: entries.phone || '',
+      email: entries.email || '',
+      service: entries.service || '',
+      delivery: entries.delivery || '',
+      message: entries.message || '',
+      status: 'new'
+    });
+    success = !error;
+  }
 
   btn.disabled = false;
   btn.textContent = 'Отправить заявку';
 
-  if (error) {
+  if (!success) {
     alert('Ошибка отправки. Попробуйте ещё раз.');
     return false;
   }
